@@ -1,93 +1,62 @@
-import React, { useRef, useMemo } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import * as THREE from "three";
+import React, { useState, useRef, useMemo, lazy, Suspense } from "react";
 import portrait from "../../assets/portrait.png";
 
-// --- Cấu phần 3D: Hệ thống hạt dữ liệu ---
-const BackgroundParticles = ({ count = 1500 }) => {
-  const points = useRef();
+// Lazy load Three.js components
+const Canvas = lazy(() =>
+  import("@react-three/fiber").then((mod) => ({ default: mod.Canvas })),
+);
+const BackgroundParticles = lazy(() => import("./BackgroundParticles"));
 
-  // Tạo tọa độ ngẫu nhiên cho các hạt trong không gian
-  const particles = useMemo(() => {
-    const positions = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      positions[i * 3] = (Math.random() - 0.5) * 25; // X
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 15; // Y
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 10; // Z
-    }
-    return positions;
-  }, [count]);
+/**
+ * Loading fallback for Three.js canvas
+ */
+const CanvasLoader = () => (
+  <div className="absolute inset-0 bg-[#1A1C23] flex items-center justify-center">
+    <div className="w-8 h-8 border-2 border-cinnabar border-t-transparent rounded-full animate-spin"></div>
+  </div>
+);
 
-  // Animation: Hạt xoay nhẹ và phản ứng theo chuột
-  useFrame((state) => {
-    const t = state.clock.getElapsedTime();
-    points.current.rotation.y = t * 0.05;
-    points.current.rotation.x = Math.sin(t * 0.1) * 0.1;
-    // Phản hồi theo vị trí chuột
-    points.current.position.x = THREE.MathUtils.lerp(
-      points.current.position.x,
-      state.mouse.x * 2,
-      0.1,
-    );
-    points.current.position.y = THREE.MathUtils.lerp(
-      points.current.position.y,
-      state.mouse.y * 2,
-      0.1,
-    );
-  });
-
-  return (
-    <points ref={points}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={particles.length / 3}
-          array={particles}
-          itemSize={3}
-        />
-      </bufferGeometry>
-      <pointsMaterial
-        size={0.04}
-        color="#E9E5D6" // Ivory color để hợp với text
-        transparent
-        opacity={0.3}
-        sizeAttenuation={true}
-      />
-    </points>
-  );
-};
-
+/**
+ * Introduce Section - Hero/About section with 3D background
+ */
 const Introduce = () => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
   return (
     <section
       id="Introduce"
       className="relative w-full bg-[#1A1C23] flex items-center justify-center py-24 overflow-hidden"
     >
-      {/* 1. LỚP THREE.JS CANVAS NỀN */}
+      {/* 1. LỚP THREE.JS CANVAS NỀN - Lazy Load */}
       <div className="absolute inset-0 z-0">
-        <Canvas camera={{ position: [0, 0, 10], fov: 50 }}>
-          <ambientLight intensity={0.5} />
-          <BackgroundParticles />
-        </Canvas>
+        <Suspense fallback={<CanvasLoader />}>
+          <Canvas camera={{ position: [0, 0, 10], fov: 50 }}>
+            <ambientLight intensity={0.5} />
+            <Suspense fallback={null}>
+              <BackgroundParticles />
+            </Suspense>
+          </Canvas>
+        </Suspense>
       </div>
 
       <div className="container max-w-6xl mx-auto px-6 md:px-12 z-10 relative">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-          {/* CỘT ẢNH - Giữ layout cũ nhưng bọc trong glassmorphism nhẹ */}
+          {/* CỘT ẢNH */}
           <div className="lg:col-span-5 flex justify-center">
             <div className="relative group">
-              {/* Viền Olive có hiệu ứng mờ ảo hơn */}
+              {/* Viền Olive có hiệu ứng mờ ảo */}
               <div className="absolute -inset-4 border-2 border-[#8A8A64]/30 translate-x-4 translate-y-4 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-700 blur-[1px]"></div>
 
               <div className="relative w-full max-w-[400px] aspect-[3/4] bg-[#2D3139]/40 backdrop-blur-md overflow-hidden shadow-2xl border border-white/5">
                 <img
                   src={portrait}
                   alt="Nguyen Anh Dung"
-                  className="w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
+                  onLoad={() => setImageLoaded(true)}
+                  className={`w-full h-full object-cover transition-all duration-700 ${imageLoaded ? "grayscale-[30%] group-hover:grayscale-0 scale-105 group-hover:scale-100" : "grayscale"}`}
                 />
               </div>
 
-              {/* Tag tên Cinnabar rực rỡ */}
+              {/* Tag tên Cinnabar */}
               <div className="absolute -bottom-6 -right-6 bg-[#E14D3D] px-8 py-4 shadow-[10px_10px_30px_rgba(225,77,61,0.3)]">
                 <p className="text-[#E9E5D6] font-black text-2xl tracking-tighter">
                   DUNG.
@@ -96,54 +65,66 @@ const Introduce = () => {
             </div>
           </div>
 
-          {/* CỘT CHỮ - Tăng tính hiện đại với Outline Text */}
+          {/* CỘT CHỮ */}
           <div className="lg:col-span-7 text-left">
-            <h2 className="text-[#8A8A64] font-mono tracking-[0.3em] uppercase text-sm mb-6 flex items-center">
-              <span className="w-12 h-[1px] bg-[#8A8A64] mr-4"></span>
-              Introduce
-            </h2>
-
-            <h1 className="text-6xl md:text-8xl font-black text-[#E9E5D6] mb-8 leading-[0.9]">
-              FullStack <br />
-              <span
-                className="text-transparent"
-                style={{ WebkitTextStroke: "1px rgba(233, 229, 214, 0.4)" }}
-              >
-                DEVELOPER
-              </span>
-            </h1>
-
-            <div className="space-y-6 relative">
-              {/* Thêm một vệt sáng đỏ mờ phía sau text để tăng chiều sâu */}
-              <div className="absolute -left-10 top-0 w-20 h-20 bg-[#E14D3D]/10 blur-[50px] rounded-full"></div>
-
-              <p className="text-[#E9E5D6]/90 text-lg md:text-xl leading-relaxed relative z-10">
-                Tôi là một{" "}
-                <span className="text-[#E14D3D] font-bold">
-                  Full-stack Developer
-                </span>
-                . Tôi không chỉ viết code, tôi xây dựng những trải nghiệm số
-                hiện đại bằng
-                <span className="text-[#E9E5D6] font-semibold"> ReactJS </span>
-                và{" "}
-                <span className="text-[#E9E5D6] font-semibold">Laravel 12</span>
-                .
+            <div className="space-y-6">
+              {/* Subtitle */}
+              <p className="text-cinnabar font-bold tracking-[0.3em] uppercase text-sm">
+                Fullstack Developer
               </p>
 
-              <p className="text-[#E9E5D6]/60 text-base leading-relaxed max-w-xl">
-                Với tư duy thiết kế hệ thống từ dự án Docker, React và Laravel,
-                tôi tập trung vào việc tạo ra mã nguồn sạch, hiệu năng cao và
-                giao diện người dùng tinh tế.
-              </p>
-            </div>
+              {/* Main Title */}
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-ivory leading-tight">
+                XIN CHÀO<span className="text-cinnabar">.</span>
+                <br />
+                TÔI LÀ <span className="text-outline">DŨNG</span>
+              </h1>
 
-            <div className="mt-12 flex flex-wrap gap-6">
-              <button className="px-10 py-4 bg-[#E14D3D] text-[#E9E5D6] font-bold hover:bg-[#E9E5D6] hover:text-[#1A1C23] transition-all duration-500 shadow-lg tracking-widest text-xs uppercase">
-                XEM DỰ ÁN
-              </button>
-              <button className="px-10 py-4 border border-[#8A8A64]/50 text-[#8A8A64] font-bold hover:bg-[#8A8A64] hover:text-[#E9E5D6] transition-all duration-500 tracking-widest text-xs uppercase">
-                TẢI CV (PDF)
-              </button>
+              {/* Description */}
+              <p className="text-lg text-gray-400 max-w-lg leading-relaxed">
+                Kết hợp <span className="text-cinnabar font-bold">ReactJS</span>{" "}
+                và <span className="text-cinnabar font-bold">Laravel</span> để
+                xây dựng giải pháp phần mềm chất lượng cao cho thị trường Nhật
+                Bản.
+              </p>
+
+              {/* Stats */}
+              <div className="flex flex-wrap gap-8 pt-4">
+                <div>
+                  <p className="text-3xl font-black text-cinnabar">3+</p>
+                  <p className="text-xs text-gray-500 uppercase tracking-widest">
+                    Năm kinh nghiệm
+                  </p>
+                </div>
+                <div>
+                  <p className="text-3xl font-black text-cinnabar">10+</p>
+                  <p className="text-xs text-gray-500 uppercase tracking-widest">
+                    Dự án hoàn thành
+                  </p>
+                </div>
+                <div>
+                  <p className="text-3xl font-black text-cinnabar">N3</p>
+                  <p className="text-xs text-gray-500 uppercase tracking-widest">
+                    Target JLPT
+                  </p>
+                </div>
+              </div>
+
+              {/* CTA Buttons */}
+              <div className="flex flex-wrap gap-4 pt-4">
+                <a
+                  href="#projects"
+                  className="px-8 py-4 bg-cinnabar text-white font-black uppercase tracking-[0.2em] hover:bg-[#d13d2d] transition-all shadow-lg"
+                >
+                  Xem Dự Án
+                </a>
+                <a
+                  href="#contact"
+                  className="px-8 py-4 border-2 border-ivory/30 text-ivory font-black uppercase tracking-[0.2em] hover:bg-ivory hover:text-[#1e1f26] transition-all"
+                >
+                  Liên Hệ
+                </a>
+              </div>
             </div>
           </div>
         </div>

@@ -1,33 +1,12 @@
 import React from "react";
+import { experiences, coreValues, strengths } from "../../data";
 
+/**
+ * About Section - Giới thiệu về bản thân và kinh nghiệm
+ */
 const About = () => {
-  // Dữ liệu kinh nghiệm thực tế từ CV của bạn
-  const experiences = [
-    {
-      time: "2019 - 2023",
-      title: "ĐẠI HỌC CÔNG NGHỆ TP.HCM (HUTECH)",
-      desc: "Tốt nghiệp chuyên ngành Công nghệ Thông tin. Xây dựng nền tảng vững chắc và hoàn thành các chứng chỉ Cybersecurity (Cisco) & Web Development.",
-      tag: "EDUCATION",
-    },
-    {
-      time: "09/2024 - HIỆN TẠI",
-      title: "WEB DEVELOPER (OUTSOURCE)",
-      desc: "Làm việc tại Công ty CNTT Sao Kim, đối tác trực tiếp với Epoca Marketing Nhật Bản. Phát triển hệ thống y tế với tiêu chuẩn bảo mật và validation khắt khe.",
-      tag: "SAO KIM IT",
-    },
-    {
-      time: "MỤC TIÊU TƯƠNG LAI",
-      title: "BRIDGE SOFTWARE ENGINEER (BrSE)",
-      desc: "Kết hợp năng lực Fullstack (ReactJS/Laravel) và ngôn ngữ Nhật (Target N3) để trở thành cầu nối kỹ thuật chuyên nghiệp cho các dự án quốc tế.",
-      tag: "CAREER GOAL",
-    },
-  ];
-
   return (
-    <section
-      id="about"
-      className="bg-[#f8f9fa] py-24 px-6 md:px-20 overflow-hidden text-gray-800 font-sans"
-    >
+    <section id="about" className="bg-[#f8f9fa] py-24 px-6 md:px-20 overflow-hidden text-gray-800 font-sans">
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
         <div className="relative mb-16">
@@ -54,27 +33,23 @@ const About = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="p-5 border border-dashed border-gray-300 bg-white">
                 <h4 className="font-black text-[#1e1f26] mb-3 flex items-center uppercase text-xs tracking-widest">
-                  <span className="w-2 h-2 bg-[#ff4d4d] mr-3"></span> Giá trị
-                  cốt lõi
+                  <span className="w-2 h-2 bg-[#ff4d4d] mr-3"></span> Giá trị cốt lõi
                 </h4>
                 <ul className="text-[11px] space-y-2 text-gray-500 font-bold uppercase tracking-tighter">
-                  <li>• Mã nguồn sạch & SOLID</li>
-                  <li>• Tiêu chuẩn Bảo mật (Nhật Bản) </li>
-                  <li>• Tối ưu hóa hệ thống </li>
+                  {coreValues.map((value, idx) => (
+                    <li key={idx}>• {value}</li>
+                  ))}
                 </ul>
               </div>
 
               <div className="p-5 border border-dashed border-gray-300 bg-white">
                 <h4 className="font-black text-[#1e1f26] mb-3 flex items-center uppercase text-xs tracking-widest">
-                  <span className="w-2 h-2 bg-[#ff4d4d] mr-3"></span> Thế mạnh
-                  chuyên môn
+                  <span className="w-2 h-2 bg-[#ff4d4d] mr-3"></span> Thế mạnh chuyên môn
                 </h4>
                 <ul className="text-[11px] space-y-2 text-gray-500 font-bold uppercase tracking-tighter">
-                  <li>• ReactJS & Laravel </li>
-                  <li>• Tối ưu hóa UI/UX </li>
-                  <li>
-                    • Tìm hiểu và nghiên cứu các công nghệ và kỹ thuật mới
-                  </li>
+                  {strengths.map((strength, idx) => (
+                    <li key={idx}>• {strength}</li>
+                  ))}
                 </ul>
               </div>
             </div>
@@ -98,27 +73,23 @@ const About = () => {
             {/* Đường kẻ dọc nối các mốc thời gian */}
             <div className="absolute left-[11px] top-4 bottom-4 w-[2px] bg-gray-200"></div>
 
-            {experiences.map((item, idx) => (
-              <div key={idx} className="relative pl-10 group">
-                {/* Nút mốc thời gian */}
-                <div className="absolute left-0 top-1 w-6 h-6 bg-white border-4 border-[#1e1f26] group-hover:border-[#ff4d4d] rounded-full transition-all duration-300 z-10"></div>
+            {experiences.map((exp, index) => (
+              <div key={index} className="relative pl-10">
+                {/* Dot tròn */}
+                <div className="absolute left-[2px] top-1 w-5 h-5 bg-[#ff4d4d] rounded-full border-4 border-white shadow-md"></div>
 
-                <div className="bg-white p-6 shadow-md border border-gray-50 group-hover:shadow-xl group-hover:border-[#ff4d4d]/30 transition-all duration-500 transform group-hover:-translate-y-1">
-                  <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
-                    <span className="text-[11px] font-black text-[#ff4d4d] tracking-widest uppercase">
-                      {item.time}
+                <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                  <div className="flex justify-between items-start mb-3">
+                    <span className="text-[10px] font-black text-[#ff4d4d] uppercase tracking-widest">
+                      {exp.tag}
                     </span>
-                    <span className="px-2 py-1 bg-gray-100 text-[9px] font-bold text-gray-500 uppercase tracking-tighter">
-                      {item.tag}
-                    </span>
+                    <span className="text-xs font-bold text-gray-400">{exp.time}</span>
                   </div>
-
-                  <h4 className="text-xl font-black text-[#1e1f26] uppercase leading-tight mb-3">
-                    {item.title}
-                  </h4>
-
-                  <p className="text-sm text-gray-500 leading-relaxed">
-                    {item.desc}
+                  <h3 className="text-lg font-black text-[#1e1f26] uppercase mb-2">
+                    {exp.title}
+                  </h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    {exp.desc}
                   </p>
                 </div>
               </div>

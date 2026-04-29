@@ -1,5 +1,9 @@
 import React from "react";
+import { contactInfo, socialLinks } from "../../data";
 
+/**
+ * Contact Section - Phần liên hệ với form và thông tin
+ */
 const Contact = () => {
   return (
     <section
@@ -46,10 +50,10 @@ const Contact = () => {
                     Email me at
                   </p>
                   <a
-                    href="mailto:nadung.hutech@gmail.com"
+                    href={`mailto:${contactInfo.email}`}
                     className="text-lg font-bold hover:text-[#ff4d4d] transition-colors"
                   >
-                    nadung.hutech@gmail.com
+                    {contactInfo.email}
                   </a>
                 </div>
               </div>
@@ -64,10 +68,10 @@ const Contact = () => {
                     Call me at
                   </p>
                   <a
-                    href="tel:+84394468285"
+                    href={`tel:${contactInfo.phoneRaw}`}
                     className="text-lg font-bold hover:text-[#ff4d4d] transition-colors"
                   >
-                    +84 394 468 285
+                    {contactInfo.phone}
                   </a>
                 </div>
               </div>
@@ -75,20 +79,18 @@ const Contact = () => {
 
             {/* Social Links */}
             <div className="pt-8 border-t border-dashed border-gray-700 flex space-x-6">
-              <a
-                href="https://github.com/nguyendung113-cyber"
-                target="_blank"
-                className="text-2xl text-gray-500 hover:text-white transition-colors"
-              >
-                <i className="fab fa-github"></i>
-              </a>
-              <a
-                href="https://www.facebook.com/nguyen.dung.710310/"
-                target="_blank"
-                className="text-2xl text-[#ff4d4d] hover:text-white transition-colors"
-              >
-                <i className="fab fa-facebook"></i>
-              </a>
+              {socialLinks.map((social) => (
+                <a
+                  key={social.name}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-2xl text-gray-500 hover:text-white transition-colors"
+                  aria-label={social.name}
+                >
+                  <i className={social.icon}></i>
+                </a>
+              ))}
             </div>
           </div>
 
@@ -98,12 +100,12 @@ const Contact = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">
-                    Họ & Tên
+                    Name
                   </label>
                   <input
                     type="text"
-                    className="w-full bg-gray-50 border-b-2 border-gray-200 p-3 text-black focus:outline-none focus:border-[#ff4d4d] transition-colors"
-                    placeholder="Nguyễn Văn A"
+                    className="w-full p-4 bg-gray-100 border-0 focus:ring-2 focus:ring-[#ff4d4d] transition-all"
+                    placeholder="Your name"
                   />
                 </div>
                 <div className="space-y-2">
@@ -112,26 +114,37 @@ const Contact = () => {
                   </label>
                   <input
                     type="email"
-                    className="w-full bg-gray-50 border-b-2 border-gray-200 p-3 text-black focus:outline-none focus:border-[#ff4d4d] transition-colors"
-                    placeholder="email@example.com"
+                    className="w-full p-4 bg-gray-100 border-0 focus:ring-2 focus:ring-[#ff4d4d] transition-all"
+                    placeholder="your@email.com"
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
                 <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">
-                  Lời nhắn
+                  Subject
+                </label>
+                <input
+                  type="text"
+                  className="w-full p-4 bg-gray-100 border-0 focus:ring-2 focus:ring-[#ff4d4d] transition-all"
+                  placeholder="Project inquiry"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">
+                  Message
                 </label>
                 <textarea
-                  rows="4"
-                  className="w-full bg-gray-50 border-b-2 border-gray-200 p-3 text-black focus:outline-none focus:border-[#ff4d4d] transition-colors"
-                  placeholder="Tôi muốn trao đổi về dự án..."
+                  rows="5"
+                  className="w-full p-4 bg-gray-100 border-0 focus:ring-2 focus:ring-[#ff4d4d] transition-all resize-none"
+                  placeholder="Tell me about your project..."
                 ></textarea>
               </div>
 
               <button
                 type="submit"
-                className="w-full bg-[#1e1f26] text-white font-black py-4 uppercase tracking-[0.2em] hover:bg-[#ff4d4d] transition-all transform hover:-translate-y-1 shadow-lg"
+                className="w-full py-4 bg-[#1e1f26] text-white font-black uppercase tracking-[0.2em] hover:bg-[#ff4d4d] transition-all"
               >
                 Gửi Tin Nhắn
               </button>

@@ -1,56 +1,10 @@
 import React from "react";
+import { skillGroups } from "../../data";
 
+/**
+ * Skills Section - Hiển thị kỹ năng theo nhóm
+ */
 const Skills = () => {
-  const skillGroups = [
-    {
-      title: "Frontend Development",
-      skills: [
-        { name: "ReactJS", icon: "fab fa-react", color: "text-[#61DAFB]" },
-        {
-          name: "Tailwind CSS",
-          icon: "fab fa-css3-alt",
-          color: "text-[#38BDF8]",
-        },
-        { name: "jQuery", icon: "fas fa-code", color: "text-[#0769AD]" },
-        {
-          name: "JavaScript (ES6+)",
-          icon: "fab fa-js",
-          color: "text-[#F7DF1E]",
-        },
-      ],
-    },
-    {
-      title: "Backend & Database",
-      skills: [
-        { name: "Laravel 12", icon: "fab fa-laravel", color: "text-[#FF2D20]" },
-        { name: "MySQL", icon: "fas fa-database", color: "text-[#4479A1]" },
-        { name: "PHP", icon: "fab fa-php", color: "text-[#777BB4]" },
-        {
-          name: "RESTful API",
-          icon: "fas fa-network-wired",
-          color: "text-[#009688]",
-        },
-      ],
-    },
-    {
-      title: "DevOps & Tools",
-      skills: [
-        { name: "Docker", icon: "fab fa-docker", color: "text-[#2496ED]" },
-        { name: "Git / GitHub", icon: "fab fa-github", color: "text-white" },
-        {
-          name: "Postman",
-          icon: "fas fa-satellite-dish",
-          color: "text-[#FF6C37]",
-        },
-        {
-          name: "AI Tools (Copilot/GPT)",
-          icon: "fas fa-robot",
-          color: "text-[#ff4d4d]",
-        },
-      ],
-    },
-  ];
-
   return (
     <section
       id="skills"
@@ -99,26 +53,6 @@ const Skills = () => {
               </div>
             </div>
           ))}
-        </div>
-
-        {/* Phần bổ sung: Japanese & DSA lấp đầy phía dưới */}
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-[#ff4d4d] p-4 flex items-center justify-between group cursor-default">
-            <span className="font-black uppercase tracking-widest text-sm">
-              Japanese Proficiency
-            </span>
-            <span className="font-mono font-bold bg-white text-[#ff4d4d] px-3 py-1 rounded-full text-xs">
-              Target N3
-            </span>
-          </div>
-          <div className="bg-white p-4 flex items-center justify-between group cursor-default">
-            <span className="font-black uppercase tracking-widest text-sm text-[#1e1f26]">
-              Problem Solving
-            </span>
-            <span className="font-mono font-bold bg-[#1e1f26] text-white px-3 py-1 rounded-full text-xs">
-              DSA Mastery
-            </span>
-          </div>
         </div>
       </div>
     </section>

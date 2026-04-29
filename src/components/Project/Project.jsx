@@ -1,41 +1,17 @@
 import React from "react";
+import { projects, projectsPlaceholder } from "../../data";
 
+/**
+ * Projects Section - Hiển thị dự án tiêu biểu
+ */
 const Projects = () => {
-  const projectList = [
-    {
-      title: "Giải Pháp Làm Mát SAISYU",
-      description:
-        "Phát triển hệ thống Fullstack cho đối tác Nhật Bản. Tối ưu bộ lọc kỹ thuật và luồng đăng ký tư vấn y tế/kỹ thuật chuyên sâu.",
-      tags: ["ReactJS", "Laravel", "Tailwind"],
-      link: "https://vn.saisyu.jp/",
-      year: "2024",
-      type: "COMMERCIAL PROJECT",
-      image:
-        "https://via.placeholder.com/600x400/1e1f26/ff4d4d?text=SAISYU+SYSTEM",
-    },
-    {
-      title: "Hệ Thống Khảo Sát Y Tế Nhật Bản",
-      description:
-        "Xây dựng Form đăng ký với logic Validation nghiêm ngặt, đảm bảo an toàn thông tin theo tiêu chuẩn khắt khe của thị trường Nhật.",
-      tags: ["Laravel", "ReactJS", "Security"],
-      link: "#",
-      year: "2025",
-      type: "HEALTHCARE PROJECT",
-      image:
-        "https://via.placeholder.com/600x400/1e1f26/ff4d4d?text=JAPAN+SURVEY+MEDICAL",
-    },
-    {
-      title: "Job Tracking Kanban Board",
-      description:
-        "Ứng dụng quản lý quy trình ứng tuyển với tính năng kéo thả (Drag & Drop) và đồng bộ dữ liệu thời gian thực qua Supabase.",
-      tags: ["ReactJS", "Supabase", "Tailwind"],
-      link: "https://github.com/nguyendung113-cyber",
-      year: "2024",
-      type: "PERSONAL PROJECT",
-      image:
-        "https://via.placeholder.com/600x400/1e1f26/ff4d4d?text=KANBAN+TRACKER",
-    },
-  ];
+  // Helper để lấy image với fallback placeholder
+  const getProjectImage = (project) => {
+    if (project.image) return project.image;
+    if (project.id === 2) return projectsPlaceholder.japanSurvey;
+    if (project.id === 3) return projectsPlaceholder.kanban;
+    return projectsPlaceholder.japanSurvey;
+  };
 
   return (
     <section
@@ -43,7 +19,7 @@ const Projects = () => {
       className="bg-[#f8f9fa] py-16 md:py-24 px-4 sm:px-8 md:px-20 text-[#1e1f26]"
     >
       <div className="max-w-7xl mx-auto">
-        {/* Header Section - Responsive Text */}
+        {/* Header Section */}
         <div className="relative mb-12 md:mb-16">
           <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter">
             Dự Án Tiêu Biểu<span className="text-[#ff4d4d]">.</span>
@@ -54,22 +30,22 @@ const Projects = () => {
           </p>
         </div>
 
-        {/* Project Grid - Responsive 1 to 2 columns */}
+        {/* Project Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-10">
-          {projectList.map((project, index) => (
+          {projects.map((project) => (
             <div
-              key={index}
+              key={project.id}
               className="group relative bg-white overflow-hidden shadow-xl border border-gray-100 flex flex-col transition-all duration-500 hover:border-[#ff4d4d]/30"
             >
-              {/* Image Container - Responsive Aspect Ratio */}
-              <div className="relative h-56 sm:h-64 md:h-80 overflow-hidden shrink-0">
+              {/* Image Container */}
+              <div className="relative h-40 sm:h-64 md:h-80 overflow-hidden shrink-0">
                 <img
-                  src={project.image}
+                  src={getProjectImage(project)}
                   alt={project.title}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
 
-                {/* Overlay - Optimized for Touch & Hover */}
+                {/* Overlay */}
                 <div className="absolute inset-0 bg-[#1e1f26]/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-4">
                   <div className="flex space-x-3">
                     <a
@@ -81,13 +57,12 @@ const Projects = () => {
                     >
                       <i className="fas fa-external-link-alt text-sm md:text-base"></i>
                     </a>
-                    <a
-                      href="#"
+                    <button
                       className="p-3 md:p-4 bg-white text-[#1e1f26] rounded-full hover:scale-110 transition-transform shadow-lg"
                       title="Mã nguồn"
                     >
                       <i className="fab fa-github text-sm md:text-base"></i>
-                    </a>
+                    </button>
                   </div>
                   <p className="text-white text-[10px] md:text-xs font-mono tracking-widest uppercase mt-4">
                     View Project Details
@@ -95,7 +70,7 @@ const Projects = () => {
                 </div>
               </div>
 
-              {/* Content Section - Responsive Padding & Text */}
+              {/* Content Section */}
               <div className="p-6 md:p-8 flex flex-col flex-grow">
                 <div className="flex justify-between items-start mb-4">
                   <div className="flex flex-wrap gap-1.5">
@@ -137,7 +112,7 @@ const Projects = () => {
           ))}
         </div>
 
-        {/* CTA Section - Fully Responsive Button */}
+        {/* CTA Section */}
         <div className="mt-12 md:mt-20 text-center">
           <a
             href="https://github.com/nguyendung113-cyber"
