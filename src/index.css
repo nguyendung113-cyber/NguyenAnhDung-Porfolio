@@ -16,10 +16,10 @@
 }
 
 /* Ép buộc nền luôn phủ kín để không bị trắng khi zoom ra */
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   background-color: #292b36; /* Dark Blue */
   color: #ebecee;
-  min-height: 100vh;
 }
