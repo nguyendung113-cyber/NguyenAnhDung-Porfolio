@@ -10,8 +10,8 @@ export const experiences = [
   },
   {
     time: "09/2024 - HIỆN TẠI",
-    title: "WEB DEVELOPER (OUTSOURCE)",
-    desc: "Làm việc tại Công ty CNTT Sao Kim, đối tác trực tiếp với Epoca Marketing Nhật Bản. Phát triển hệ thống y tế với tiêu chuẩn bảo mật và validation khắt khe.",
+    title: "JUNIOR WEB DEVELOPER (OUTSOURCE)",
+    desc: "Làm việc tại Công ty CNTT Sao Kim, tham gia dự án với đối tác Epoca Marketing Nhật Bản. Hỗ trợ phát triển hệ thống y tế với tiêu chuẩn bảo mật và validation khắt khe.",
     tag: "SAO KIM IT",
   },
   {

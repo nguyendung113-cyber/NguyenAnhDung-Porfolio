@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from "react";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
+import { ErrorBoundary } from "./components/ui";
 
 // Lazy load các section
 const Introduce = lazy(() => import("./components/Introduce/Introduce"));
@@ -27,19 +28,21 @@ function App() {
       {/* Bọc tất cả nội dung vào một Suspense duy nhất. 
           Loading sẽ chỉ biến mất khi TẤT CẢ các component bên trong đã tải xong.
       */}
-      <Suspense fallback={<FullScreenLoader />}>
-        <Header />
+      <ErrorBoundary>
+        <Suspense fallback={<FullScreenLoader />}>
+          <Header />
 
-        <main>
-          <Introduce />
-          <About />
-          <Skills />
-          <Projects />
-          <Contact />
-        </main>
+          <main>
+            <Introduce />
+            <About />
+            <Skills />
+            <Projects />
+            <Contact />
+          </main>
 
-        <Footer />
-      </Suspense>
+          <Footer />
+        </Suspense>
+      </ErrorBoundary>
     </div>
   );
 }

@@ -1,10 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import { contactInfo, socialLinks } from "../../data";
 
 /**
  * Contact Section - Phần liên hệ với form và thông tin
  */
 const Contact = () => {
+  const [status, setStatus] = useState("IDLE"); // IDLE, LOADING, SUCCESS, ERROR
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("LOADING");
+    
+    const formData = new FormData(e.target);
+    // Tùy chỉnh tiêu đề email
+    formData.append("_subject", `Contact from Portfolio: ${formData.get("subject")}`);
+
+    try {
+      const response = await fetch(`https://formsubmit.co/ajax/${contactInfo.email}`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        setStatus("SUCCESS");
+        e.target.reset();
+      } else {
+        setStatus("ERROR");
+      }
+    } catch (error) {
+      console.error("Form submit error:", error);
+      setStatus("ERROR");
+    }
+  };
   return (
     <section
       id="contact"
@@ -33,7 +60,7 @@ const Contact = () => {
                 Tôi luôn sẵn lòng thảo luận về các dự án tiềm năng, cơ hội nghề
                 nghiệp tại vị trí{" "}
                 <span className="text-white font-bold">
-                  Senior Software Engineer
+                  Junior Software Engineer
                 </span>{" "}
                 hoặc các giải pháp công nghệ mới.
               </p>
@@ -96,59 +123,99 @@ const Contact = () => {
 
           {/* CỘT PHẢI: Form liên hệ */}
           <div className="bg-white p-8 md:p-10 shadow-2xl rounded-sm">
-            <form className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {status === "SUCCESS" ? (
+              <div className="text-center py-10 animate-fade-in">
+                <div className="w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <i className="fas fa-check text-2xl"></i>
+                </div>
+                <h3 className="text-xl font-bold text-gray-800 mb-2">Gửi thành công!</h3>
+                <p className="text-gray-500 mb-6">Cảm ơn bạn đã liên hệ. Tôi sẽ phản hồi lại trong thời gian sớm nhất.</p>
+                <button 
+                  onClick={() => setStatus("IDLE")}
+                  className="px-6 py-2 bg-[#1e1f26] text-white hover:bg-[#ff4d4d] transition-colors font-bold uppercase tracking-widest text-xs"
+                >
+                  Gửi tin nhắn khác
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Các trường ẩn để cấu hình FormSubmit */}
+                <input type="hidden" name="_template" value="table" />
+                <input type="hidden" name="_captcha" value="false" />
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      required
+                      className="w-full p-4 bg-gray-100 text-gray-800 border-0 focus:ring-2 focus:ring-[#ff4d4d] transition-all outline-none"
+                      placeholder="Your name"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      required
+                      className="w-full p-4 bg-gray-100 text-gray-800 border-0 focus:ring-2 focus:ring-[#ff4d4d] transition-all outline-none"
+                      placeholder="your@email.com"
+                    />
+                  </div>
+                </div>
+
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">
-                    Name
+                    Subject
                   </label>
                   <input
                     type="text"
-                    className="w-full p-4 bg-gray-100 border-0 focus:ring-2 focus:ring-[#ff4d4d] transition-all"
-                    placeholder="Your name"
+                    name="subject"
+                    required
+                    className="w-full p-4 bg-gray-100 text-gray-800 border-0 focus:ring-2 focus:ring-[#ff4d4d] transition-all outline-none"
+                    placeholder="Project inquiry"
                   />
                 </div>
+
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">
-                    Email
+                    Message
                   </label>
-                  <input
-                    type="email"
-                    className="w-full p-4 bg-gray-100 border-0 focus:ring-2 focus:ring-[#ff4d4d] transition-all"
-                    placeholder="your@email.com"
-                  />
+                  <textarea
+                    name="message"
+                    rows="5"
+                    required
+                    className="w-full p-4 bg-gray-100 text-gray-800 border-0 focus:ring-2 focus:ring-[#ff4d4d] transition-all resize-none outline-none"
+                    placeholder="Tell me about your project..."
+                  ></textarea>
                 </div>
-              </div>
 
-              <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">
-                  Subject
-                </label>
-                <input
-                  type="text"
-                  className="w-full p-4 bg-gray-100 border-0 focus:ring-2 focus:ring-[#ff4d4d] transition-all"
-                  placeholder="Project inquiry"
-                />
-              </div>
+                {status === "ERROR" && (
+                  <p className="text-red-500 text-sm font-medium">Đã có lỗi xảy ra. Vui lòng thử lại sau!</p>
+                )}
 
-              <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">
-                  Message
-                </label>
-                <textarea
-                  rows="5"
-                  className="w-full p-4 bg-gray-100 border-0 focus:ring-2 focus:ring-[#ff4d4d] transition-all resize-none"
-                  placeholder="Tell me about your project..."
-                ></textarea>
-              </div>
-
-              <button
-                type="submit"
-                className="w-full py-4 bg-[#1e1f26] text-white font-black uppercase tracking-[0.2em] hover:bg-[#ff4d4d] transition-all"
-              >
-                Gửi Tin Nhắn
-              </button>
-            </form>
+                <button
+                  type="submit"
+                  disabled={status === "LOADING"}
+                  className="w-full py-4 bg-[#1e1f26] text-white font-black uppercase tracking-[0.2em] hover:bg-[#ff4d4d] transition-all disabled:opacity-50 flex justify-center items-center gap-2"
+                >
+                  {status === "LOADING" ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      Đang Gửi...
+                    </>
+                  ) : (
+                    "Gửi Tin Nhắn"
+                  )}
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </div>

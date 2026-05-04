@@ -70,7 +70,7 @@ const Introduce = () => {
             <div className="space-y-6">
               {/* Subtitle */}
               <p className="text-cinnabar font-bold tracking-[0.3em] uppercase text-sm">
-                Fullstack Developer
+                Junior Fullstack Developer
               </p>
 
               {/* Main Title */}
@@ -91,13 +91,13 @@ const Introduce = () => {
               {/* Stats */}
               <div className="flex flex-wrap gap-8 pt-4">
                 <div>
-                  <p className="text-3xl font-black text-cinnabar">3+</p>
+                  <p className="text-3xl font-black text-cinnabar">1+</p>
                   <p className="text-xs text-gray-500 uppercase tracking-widest">
                     Năm kinh nghiệm
                   </p>
                 </div>
                 <div>
-                  <p className="text-3xl font-black text-cinnabar">10+</p>
+                  <p className="text-3xl font-black text-cinnabar">5+</p>
                   <p className="text-xs text-gray-500 uppercase tracking-widest">
                     Dự án hoàn thành
                   </p>

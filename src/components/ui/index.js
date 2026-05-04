@@ -5,3 +5,4 @@ export { Section, SectionHeader } from "./Section";
 export { Button } from "./Button";
 export { Card, CardImage, CardContent } from "./Card";
 export { Tag, TagGroup } from "./Tag";
+export { default as ErrorBoundary } from "./ErrorBoundary";

@@ -1,8 +1,8 @@
 # NGUYỄN ANH DŨNG 👋
 
-## Fullstack Web Developer (ReactJS & Laravel)
+## Junior Fullstack Web Developer (ReactJS & Laravel)
 
-Chào mừng bạn đến với Portfolio của tôi! Tôi là một lập trình viên Fullstack đam mê xây dựng các ứng dụng web tối ưu, chú trọng vào trải nghiệm người dùng và tính bảo mật của hệ thống.
+Chào mừng bạn đến với Portfolio của tôi! Tôi là một Junior Fullstack Web Developer đam mê học hỏi và xây dựng các ứng dụng web tối ưu, chú trọng vào trải nghiệm người dùng và tính bảo mật của hệ thống.
 
 ---
 
